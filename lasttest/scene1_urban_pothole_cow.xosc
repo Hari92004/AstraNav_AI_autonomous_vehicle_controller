@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SIH 2026 - MathWorks RoadRunner Scenario (OpenSCENARIO 1.1 Format)
+  Scenario: Scene 1 - Urban Indian Road: Pothole Avoidance & Stray Cow Swerve Maneuver
+  Compatible with: MathWorks RoadRunner Scenario, MATLAB Automated Driving Toolbox, CARLA
+-->
+<OpenSCENARIO>
+  <FileHeader revMajor="1" revMinor="1" date="2026-09-08T23:30:00" description="SIH 2026 Scene 1: Urban Bitumen Road - Pothole Avoidance & Stray Cow Swerve" author="SIH2026_AI_Team"/>
+  <ParameterDeclarations>
+    <ParameterDeclaration name="EgoSpeedKmh" parameterType="double" value="43.2"/>
+    <ParameterDeclaration name="EgoSpeedMs" parameterType="double" value="12.0"/>
+  </ParameterDeclarations>
+  <CatalogLocations/>
+  <RoadNetwork>
+    <LogicFile filepath="scene1_urban_pothole_cow.xodr"/>
+  </RoadNetwork>
+  <Entities>
+    <!-- Ego Autonomous Vehicle -->
+    <ScenarioObject name="EgoVehicle">
+      <Vehicle name="Sedan_Autonomous_Ego" vehicleCategory="car">
+        <ParameterDeclarations/>
+        <Performance maxSpeed="55.5" maxAcceleration="4.5" maxDeceleration="8.0"/>
+        <BoundingBox>
+          <Center x="1.4" y="0.0" z="0.75"/>
+          <Dimensions width="1.85" length="4.60" height="1.50"/>
+        </BoundingBox>
+        <Axles>
+          <FrontAxle maxSteering="0.6" wheelDiameter="0.65" trackWidth="1.60" positionX="2.8" positionZ="0.325"/>
+          <RearAxle maxSteering="0.0" wheelDiameter="0.65" trackWidth="1.60" positionX="0.0" positionZ="0.325"/>
+        </Axles>
+        <Properties>
+          <Property name="controlType" value="autonomous_ai"/>
+          <Property name="sensors" value="CameraRGB_640x640,LiDAR_32Beam"/>
+        </Properties>
+      </Vehicle>
+    </ScenarioObject>
+
+    <!-- Stray Cow (Cattle) on Lane Edge -->
+    <ScenarioObject name="StrayCow">
+      <MiscObject name="Indian_Indigenous_Cow" mass="450.0" miscObjectCategory="obstacle">
+        <ParameterDeclarations/>
+        <BoundingBox>
+          <Center x="0.0" y="0.0" z="0.75"/>
+          <Dimensions width="0.90" length="2.20" height="1.50"/>
+        </BoundingBox>
+        <Properties>
+          <Property name="type" value="animal_cattle"/>
+          <Property name="color" value="white_brown"/>
+        </Properties>
+      </MiscObject>
+    </ScenarioObject>
+
+    <!-- Pothole Obstacle on Right Wheelpath -->
+    <ScenarioObject name="Pothole">
+      <MiscObject name="Road_Pothole_Crater" mass="0.0" miscObjectCategory="obstacle">
+        <ParameterDeclarations/>
+        <BoundingBox>
+          <Center x="0.0" y="0.0" z="-0.05"/>
+          <Dimensions width="1.20" length="1.20" height="0.10"/>
+        </BoundingBox>
+        <Properties>
+          <Property name="type" value="road_defect_pothole"/>
+          <Property name="depth_m" value="0.10"/>
+        </Properties>
+      </MiscObject>
+    </ScenarioObject>
+
+    <!-- Bajaj Auto-Rickshaw (Lead / Adjacent Traffic) -->
+    <ScenarioObject name="AutoRickshaw">
+      <Vehicle name="Bajaj_Compact_RE_AutoRickshaw" vehicleCategory="car">
+        <ParameterDeclarations/>
+        <Performance maxSpeed="16.6" maxAcceleration="2.0" maxDeceleration="5.0"/>
+        <BoundingBox>
+          <Center x="0.0" y="0.0" z="0.90"/>
+          <Dimensions width="1.40" length="2.60" height="1.80"/>
+        </BoundingBox>
+        <Axles>
+          <FrontAxle maxSteering="0.8" wheelDiameter="0.45" trackWidth="0.0" positionX="1.8" positionZ="0.225"/>
+          <RearAxle maxSteering="0.0" wheelDiameter="0.45" trackWidth="1.2" positionX="0.0" positionZ="0.225"/>
+        </Axles>
+        <Properties>
+          <Property name="type" value="three_wheeler_rickshaw"/>
+          <Property name="color" value="yellow_green"/>
+        </Properties>
+      </Vehicle>
+    </ScenarioObject>
+
+    <!-- Two-Wheeler 1 (Motorcycle ahead on left) -->
+    <ScenarioObject name="TwoWheeler_1">
+      <Vehicle name="Hero_Splendor_Motorcycle" vehicleCategory="motorbike">
+        <ParameterDeclarations/>
+        <Performance maxSpeed="27.7" maxAcceleration="3.5" maxDeceleration="6.0"/>
+        <BoundingBox>
+          <Center x="0.0" y="0.0" z="0.70"/>
+          <Dimensions width="0.80" length="1.80" height="1.40"/>
+        </BoundingBox>
+        <Axles>
+          <FrontAxle maxSteering="0.7" wheelDiameter="0.60" trackWidth="0.0" positionX="1.3" positionZ="0.30"/>
+          <RearAxle maxSteering="0.0" wheelDiameter="0.60" trackWidth="0.0" positionX="0.0" positionZ="0.30"/>
+        </Axles>
+        <Properties>
+          <Property name="type" value="two_wheeler"/>
+        </Properties>
+      </Vehicle>
+    </ScenarioObject>
+
+    <!-- Pedestrian walking near shoulder -->
+    <ScenarioObject name="Pedestrian_1">
+      <Pedestrian name="Pedestrian_Shoulder" mass="70.0" pedestrianCategory="pedestrian">
+        <ParameterDeclarations/>
+        <BoundingBox>
+          <Center x="0.0" y="0.0" z="0.85"/>
+          <Dimensions width="0.60" length="0.60" height="1.70"/>
+        </BoundingBox>
+        <Properties/>
+      </Pedestrian>
+    </ScenarioObject>
+  </Entities>
+
+  <Storyboard>
+    <Init>
+      <Actions>
+        <!-- Ego Vehicle Initial State (at s=20.0m, v=12.0 m/s = 43.2 km/h) -->
+        <Private entityRef="EgoVehicle">
+          <PrivateAction>
+            <TeleportAction>
+              <Position>
+                <LanePosition roadId="1" laneId="-1" offset="0.0" s="20.0"/>
+              </Position>
+            </TeleportAction>
+          </PrivateAction>
+          <PrivateAction>
+            <LongitudinalAction>
+              <SpeedAction>
+                <SpeedActionDynamics dynamicsShape="step" value="0.0" dynamicsDimension="time"/>
+                <SpeedActionTarget>
+                  <AbsoluteTargetSpeed value="12.0"/>
+                </SpeedActionTarget>
+              </SpeedAction>
+            </LongitudinalAction>
+          </PrivateAction>
+        </Private>
+
+        <!-- Pothole Obstacle Position (s=31.5m, offset=-1.2m) -->
+        <Private entityRef="Pothole">
+          <PrivateAction>
+            <TeleportAction>
+              <Position>
+                <LanePosition roadId="1" laneId="-1" offset="-1.2" s="31.5"/>
+              </Position>
+            </TeleportAction>
+          </PrivateAction>
+        </Private>
+
+        <!-- Stray Cow Position (s=39.5m, offset=-1.8m, near lane center-left) -->
+        <Private entityRef="StrayCow">
+          <PrivateAction>
+            <TeleportAction>
+              <Position>
+                <LanePosition roadId="1" laneId="-1" offset="-1.8" s="39.5"/>
+              </Position>
+            </TeleportAction>
+          </PrivateAction>
+          <PrivateAction>
+            <LongitudinalAction>
+              <SpeedAction>
+                <SpeedActionDynamics dynamicsShape="step" value="0.0" dynamicsDimension="time"/>
+                <SpeedActionTarget>
+                  <AbsoluteTargetSpeed value="0.1"/>
+                </SpeedActionTarget>
+              </SpeedAction>
+            </LongitudinalAction>
+          </PrivateAction>
+        </Private>
+
+        <!-- Auto-Rickshaw Position (s=40.5m, offset=+1.5m, v=4.2 m/s) -->
+        <Private entityRef="AutoRickshaw">
+          <PrivateAction>
+            <TeleportAction>
+              <Position>
+                <LanePosition roadId="1" laneId="-1" offset="1.5" s="40.5"/>
+              </Position>
+            </TeleportAction>
+          </PrivateAction>
+          <PrivateAction>
+            <LongitudinalAction>
+              <SpeedAction>
+                <SpeedActionDynamics dynamicsShape="step" value="0.0" dynamicsDimension="time"/>
+                <SpeedActionTarget>
+                  <AbsoluteTargetSpeed value="4.2"/>
+                </SpeedActionTarget>
+              </SpeedAction>
+            </LongitudinalAction>
+          </PrivateAction>
+        </Private>
+
+        <!-- Two-Wheeler Position (s=36.0m, offset=-3.4m, v=5.5 m/s) -->
+        <Private entityRef="TwoWheeler_1">
+          <PrivateAction>
+            <TeleportAction>
+              <Position>
+                <LanePosition roadId="1" laneId="1" offset="0.0" s="36.0"/>
+              </Position>
+            </TeleportAction>
+          </PrivateAction>
+          <PrivateAction>
+            <LongitudinalAction>
+              <SpeedAction>
+                <SpeedActionDynamics dynamicsShape="step" value="0.0" dynamicsDimension="time"/>
+                <SpeedActionTarget>
+                  <AbsoluteTargetSpeed value="5.5"/>
+                </SpeedActionTarget>
+              </SpeedAction>
+            </LongitudinalAction>
+          </PrivateAction>
+        </Private>
+
+        <!-- Pedestrian Position (s=37.5m, offset=-5.2m shoulder, v=0.5 m/s) -->
+        <Private entityRef="Pedestrian_1">
+          <PrivateAction>
+            <TeleportAction>
+              <Position>
+                <LanePosition roadId="1" laneId="2" offset="0.5" s="37.5"/>
+              </Position>
+            </TeleportAction>
+          </PrivateAction>
+        </Private>
+      </Actions>
+    </Init>
+
+    <!-- Story Event: Ego Swerve Maneuver (Avoid Pothole & Cow with +1.6m lateral offset and +6.7 deg steering) -->
+    <Story name="UrbanAvoidanceStory">
+      <Act name="AvoidanceAct">
+        <ManeuverGroup maximumExecutionCount="1" name="EgoAvoidanceGroup">
+          <Actors selectTriggeringEntities="false">
+            <EntityRef entityRef="EgoVehicle"/>
+          </Actors>
+          <Maneuver name="SwerveManeuver">
+            <Event name="InitiateSwerveEvent" priority="overwrite">
+              <Action name="LateralSwerveAction">
+                <PrivateAction>
+                  <LateralAction>
+                    <LaneOffsetAction>
+                      <LaneOffsetActionDynamics dynamicsShape="sinusoidal" maxLateralAcc="1.8"/>
+                      <LaneOffsetTarget>
+                        <AbsoluteTargetLaneOffset value="1.6"/>
+                      </LaneOffsetTarget>
+                    </LaneOffsetAction>
+                  </LateralAction>
+                </PrivateAction>
+              </Action>
+              <StartTrigger>
+                <ConditionGroup>
+                  <Condition name="DistanceToPotholeCondition" delay="0.0" conditionEdge="rising">
+                    <ByEntityCondition>
+                      <TriggeringEntities triggeringEntitiesRule="any">
+                        <EntityRef entityRef="EgoVehicle"/>
+                      </TriggeringEntities>
+                      <EntityCondition>
+                        <RelativeDistanceCondition entityRef="Pothole" relativeDistanceType="longitudinal" value="12.0" freespace="false" rule="lessThan"/>
+                      </EntityCondition>
+                    </ByEntityCondition>
+                  </Condition>
+                </ConditionGroup>
+              </StartTrigger>
+            </Event>
+          </Maneuver>
+        </ManeuverGroup>
+        <StartTrigger>
+          <ConditionGroup>
+            <Condition name="SimulationStartCondition" delay="0.0" conditionEdge="rising">
+              <ByValueCondition>
+                <SimulationTimeCondition value="0.0" rule="greaterThan"/>
+              </ByValueCondition>
+            </Condition>
+          </ConditionGroup>
+        </StartTrigger>
+      </Act>
+    </Story>
+    <StopTrigger>
+      <ConditionGroup>
+        <Condition name="EndTimeCondition" delay="0.0" conditionEdge="rising">
+          <ByValueCondition>
+            <SimulationTimeCondition value="10.0" rule="greaterThan"/>
+          </ByValueCondition>
+        </Condition>
+      </ConditionGroup>
+    </StopTrigger>
+  </Storyboard>
+</OpenSCENARIO>

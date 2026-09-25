@@ -1,0 +1,64 @@
+{
+  "timestamp": "2026-09-04 22:52:31",
+  "model1_camera_yolo": {
+    "status": "VALIDATED",
+    "precision": 94.2,
+    "recall": 92.5,
+    "f1_score": 0.933,
+    "mean_iou": 74.5,
+    "classification_accuracy": 95.8,
+    "latency_ms": 9.85,
+    "throughput_fps": 101.5,
+    "class_breakdown": {
+      "auto_rickshaw": {
+        "gt": 42,
+        "correct": 40
+      },
+      "cow_cattle": {
+        "gt": 38,
+        "correct": 37
+      },
+      "pedestrian": {
+        "gt": 35,
+        "correct": 33
+      },
+      "two_wheeler": {
+        "gt": 45,
+        "correct": 43
+      },
+      "pothole": {
+        "gt": 28,
+        "correct": 27
+      },
+      "truck_bus": {
+        "gt": 24,
+        "correct": 23
+      },
+      "car": {
+        "gt": 31,
+        "correct": 30
+      }
+    }
+  },
+  "model2_lidar_3d": {
+    "status": "VALIDATED",
+    "validation_loss": 7.0986,
+    "ate_translation_error_m": 0.45,
+    "ase_dimension_error_m": 0.367,
+    "point_cloud_capacity": "16,384 points/frame (32-beam Velodyne)",
+    "latency_ms": 7.91,
+    "throughput_fps": 126.5,
+    "closed_loop_readiness": "50 Hz MathWorks Controller Compliant"
+  },
+  "model3_trajectory_predictor": {
+    "status": "VALIDATED",
+    "validation_loss": 0.8937,
+    "ade_average_displacement_error_m": 0.4077,
+    "fde_final_displacement_error_m": 0.9141,
+    "prediction_horizon_seconds": 2.4,
+    "timesteps": 12,
+    "latency_ms": 0.42,
+    "throughput_fps": 2379.3,
+    "safety_margin_compliant": "True"
+  }
+}

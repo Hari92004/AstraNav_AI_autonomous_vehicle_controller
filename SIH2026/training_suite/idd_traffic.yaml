@@ -1,0 +1,15 @@
+# SIH 2026: Indian Traffic & Road Obstacle Dataset Config
+path: ./datasets/indian_traffic  # Dataset root directory
+train: images/train              # Train images (relative to path)
+val: images/val                  # Val images (relative to path)
+test: images/test                # Test images (optional)
+
+# Indian Road Specific Classes (7 Classes)
+names:
+  0: auto_rickshaw
+  1: cow_cattle
+  2: pedestrian
+  3: two_wheeler
+  4: pothole
+  5: truck_bus
+  6: car

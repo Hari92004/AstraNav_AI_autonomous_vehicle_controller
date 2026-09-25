@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  SIH 2026 - MathWorks RoadRunner HD Map (OpenDRIVE 1.6 Format)
+  Scenario: Scene 1 - Urban Bitumen Road with Pothole & Stray Cow
+  Compatible with: MathWorks RoadRunner, MATLAB Driving Scenario Designer, CARLA, VIRES VTD
+-->
+<OpenDRIVE>
+  <header revMajor="1" revMinor="6" name="SIH2026_Scene1_Urban_Road" version="1.00" date="2026-09-08T23:30:00" north="0.0" south="0.0" east="0.0" west="0.0" vendor="SIH2026_Team">
+    <geoReference><![CDATA[+proj=utm +zone=43 +ellps=WGS84 +datum=WGS84 +units=m +no_defs]]></geoReference>
+  </header>
+  <road name="Urban_Indian_Bitumen_Road" length="250.0" id="1" junction="-1">
+    <link/>
+    <planView>
+      <geometry s="0.0" x="0.0" y="0.0" hdg="0.0" length="250.0">
+        <line/>
+      </geometry>
+    </planView>
+    <elevationProfile>
+      <elevation s="0.0" a="0.0" b="0.0" c="0.0" d="0.0"/>
+    </elevationProfile>
+    <lateralProfile/>
+    <lanes>
+      <laneSection s="0.0">
+        <!-- Left Side: Opposing / Oncoming Traffic & Shoulder -->
+        <left>
+          <lane id="2" type="shoulder" level="false">
+            <link/>
+            <width sOffset="0.0" a="1.5" b="0.0" c="0.0" d="0.0"/>
+            <roadMark sOffset="0.0" type="solid" weight="standard" color="white" width="0.15"/>
+            <material sOffset="0.0" surface="gravel" friction="0.6"/>
+          </lane>
+          <lane id="1" type="driving" level="false">
+            <link/>
+            <width sOffset="0.0" a="3.5" b="0.0" c="0.0" d="0.0"/>
+            <roadMark sOffset="0.0" type="broken" weight="standard" color="white" width="0.12"/>
+            <speed sOffset="0.0" max="50.0" unit="km/h"/>
+            <material sOffset="0.0" surface="asphalt" friction="0.85"/>
+          </lane>
+        </left>
+        <!-- Center Divider -->
+        <center>
+          <lane id="0" type="none" level="false">
+            <roadMark sOffset="0.0" type="broken" weight="standard" color="white" width="0.15"/>
+          </lane>
+        </center>
+        <!-- Right Side: Ego Lane & Left Kerb/Shoulder (Indian Left-Hand Drive) -->
+        <right>
+          <lane id="-1" type="driving" level="false">
+            <link/>
+            <width sOffset="0.0" a="3.5" b="0.0" c="0.0" d="0.0"/>
+            <roadMark sOffset="0.0" type="solid" weight="standard" color="white" width="0.12"/>
+            <speed sOffset="0.0" max="50.0" unit="km/h"/>
+            <material sOffset="0.0" surface="asphalt" friction="0.85"/>
+          </lane>
+          <lane id="-2" type="shoulder" level="false">
+            <link/>
+            <width sOffset="0.0" a="2.0" b="0.0" c="0.0" d="0.0"/>
+            <roadMark sOffset="0.0" type="solid" weight="standard" color="white" width="0.15"/>
+            <material sOffset="0.0" surface="gravel" friction="0.55"/>
+          </lane>
+        </right>
+      </laneSection>
+    </lanes>
+    <objects>
+      <!-- Pothole Obstacle: Depth 11.5m, Lateral -1.2m from Ego starting point -->
+      <object id="201" name="pothole_crater" type="obstacle" s="31.5" t="-1.2" zOffset="-0.10" validLength="1.2" orientation="none" length="1.2" width="1.2" radius="0.6">
+        <outline>
+          <cornerLocal u="-0.6" v="-0.6" z="-0.10"/>
+          <cornerLocal u="0.6" v="-0.6" z="-0.10"/>
+          <cornerLocal u="0.6" v="0.6" z="-0.10"/>
+          <cornerLocal u="-0.6" v="0.6" z="-0.10"/>
+        </outline>
+        <material surface="damaged_asphalt" friction="0.4"/>
+      </object>
+      <!-- Stray Cow static/grazing position on road -->
+      <object id="202" name="stray_cow_cattle" type="animal" s="39.5" t="-1.8" zOffset="0.0" validLength="2.2" orientation="none" length="2.2" width="0.9" radius="1.1">
+        <material surface="organic" friction="0.8"/>
+      </object>
+    </objects>
+  </road>
+</OpenDRIVE>

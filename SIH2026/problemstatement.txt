@@ -1,0 +1,171 @@
+Problem Statement ID: 26037
+Title: Adaptive Path Planning and Collision Avoidance for Autonomous Vehicles on Unstructured Indian Roads
+
+1. Background
+
+Most autonomous driving systems are developed for roads with clear lane markings, standard signage, predictable traffic flow, and controlled intersections. Indian roads are significantly more complex. Cars, buses, trucks, auto-rickshaws, two-wheelers, bicycles, pedestrians, pushcarts, and animals often share the same road space. Road users may change direction suddenly, merge without signalling, drive against traffic, or cross at unmarked locations.
+
+Road edges may be unclear, potholes and temporary obstructions are common, and formal lane discipline is often absent. These conditions make traditional path planning methods, which depend on structured road geometry and predictable motion, unreliable. India also has a diverse road network that includes village roads, crowded markets, urban intersections, and highways. Safe autonomous driving in these environments requires real-time adaptation to uncertainty, mixed traffic, and changing road conditions.
+
+2. Objective
+
+Design and simulate an adaptive path planning and collision avoidance system for an autonomous vehicle operating in unstructured Indian road conditions. The system must perceive the environment, understand the behavior of nearby road users, predict short-term motion, and continuously generate a safe and comfortable path.
+
+The solution should support:
+- Missing or unreliable lane markings
+- Informal merging and non-lane-based traffic
+- Sudden pedestrian, cyclist, or animal movement
+- Vehicles travelling in opposing or unexpected directions
+- Potholes, road-edge uncertainty, and temporary obstacles
+- Real-time path replanning under changing conditions
+
+3. Proposed Solution
+
+The proposed system is a closed-loop autonomous driving simulation with the following modules:
+
+3.1 Environment and Scenario Generation
+Create realistic Indian road scenes using RoadRunner and MATLAB driving scenarios. The scenes should include road geometry, buildings, roadside objects, traffic participants, potholes, unmarked junctions, and temporary obstacles.
+
+3.2 Multi-Sensor Perception
+Use camera, LiDAR, and radar sensors to detect and classify road users and obstacles. Sensor fusion should combine complementary information such as camera-based classification, LiDAR-based geometry, and radar-based range and relative velocity.
+
+3.3 Object Tracking and Prediction
+Track surrounding agents over time and estimate their position, velocity, heading, and motion uncertainty. Prediction should support irregular and non-lane-based behavior, including sudden lateral movement, informal overtaking, crossing, and merging.
+
+3.4 Behavior and Decision Logic
+Select driving behaviors such as cruising, yielding, stopping, overtaking, following, merging, and emergency braking. The decision module should consider collision risk, road boundaries, vehicle comfort, traffic density, and uncertainty.
+
+3.5 Adaptive Path Planning
+Generate a collision-free local path and replan whenever a new obstacle or motion prediction changes the risk level. The planner should balance safety, path smoothness, progress toward the goal, clearance from obstacles, and vehicle dynamics.
+
+3.6 Vehicle Control and Simulation
+Track the selected path using a kinematic or dynamic bicycle model. The controller should regulate steering, acceleration, and braking while respecting vehicle limits and maintaining stable motion.
+
+4. Technical Architecture
+
+Sensors -> Perception -> Sensor Fusion -> Object Tracking -> Motion Prediction
+		 -> Behavior Decision -> Local Path Planner -> Vehicle Controller
+		 -> Vehicle Dynamics -> Updated Sensor Observations
+
+The architecture must operate in a closed loop. The vehicle should not follow a fixed precomputed path when the environment changes; it must use updated observations and predictions to make new planning decisions.
+
+5. Recommended Datasets
+
+The following datasets may be used for detector development, validation, benchmarking, or scenario design:
+
+- Indian Driving Dataset (IDD): Real-world Indian road scenes containing diverse traffic participants, road layouts, and unstructured driving conditions.
+  Website: https://idd.insaan.iiit.ac.in/
+- Mendeley traffic datasets: Traffic images and videos can be used where the selected dataset provides suitable annotations and usage rights.
+- BDD100K: A large-scale driving video dataset useful for general road-user detection and tracking experiments.
+- KITTI Vision Benchmark Suite: Useful for camera-LiDAR perception, object detection, and tracking baselines.
+- nuScenes: Useful for multi-sensor perception, tracking, and motion prediction research.
+- Waymo Open Dataset: Useful for benchmarking detection and trajectory prediction methods, subject to its license and access requirements.
+- MathWorks Automated Driving Toolbox sample data: Useful for sensor modeling, object detection examples, tracking, and synthetic validation.
+- Team-generated synthetic data: RoadRunner and MATLAB scenarios should be used to generate edge cases that are rare in public datasets, such as cattle crossings, pushcarts, informal merges, and sudden pedestrian movement.
+
+Dataset usage must follow the license, attribution, privacy, and redistribution requirements of each source. Public datasets should be used primarily for model training and validation, while the final safety evaluation should include controlled synthetic scenarios.
+
+6. Technology Stack
+
+Primary platform:
+- MATLAB and Simulink
+
+Environment and scenario design:
+- RoadRunner for detailed road and scene construction
+- Automated Driving Toolbox for driving scenarios and sensor simulation
+- Scenario Builder or MATLAB drivingScenario for programmatic scenario generation
+
+Perception and sensor fusion:
+- Computer Vision Toolbox for image processing and vision-based detection
+- Deep Learning Toolbox for object detection and classification
+- Lidar Toolbox for point-cloud processing and LiDAR simulation
+- Radar Toolbox for radar modeling and radar data processing
+- Automated Driving Toolbox for multi-sensor fusion and tracking
+
+Prediction and planning:
+- Navigation Toolbox for map-free or map-assisted navigation utilities
+- Stateflow for behavior planning, state transitions, and safety logic
+- MATLAB Optimization Toolbox for constrained trajectory or cost-function optimization
+- Model Predictive Control Toolbox for predictive vehicle control, when required
+
+Vehicle modeling and control:
+- Vehicle Dynamics Blockset for vehicle dynamics and maneuver simulation
+- Simulink bicycle model for a lightweight vehicle model
+- Simulink Control Design for controller analysis and tuning
+
+Optional implementation tools:
+- Python with PyTorch or TensorFlow for externally trained perception models
+- OpenCV for additional image-processing experiments
+- ROS 2 for future deployment and middleware integration
+- Git for version control and experiment tracking
+
+7. Required Test Scenarios
+
+The system must be evaluated in at least five realistic Indian road scenarios:
+
+1. Unmarked village road
+	The vehicle navigates a narrow road with unclear boundaries, oncoming traffic, parked vehicles, and occasional pedestrians.
+
+2. Busy urban intersection without traffic signals
+	Cars, motorcycles, auto-rickshaws, pedestrians, and cross traffic approach from multiple directions with informal right-of-way behavior.
+
+3. Highway merge with slow-moving vehicles
+	The autonomous vehicle encounters trucks, buses, and two-wheelers while merging or overtaking under uncertain gaps.
+
+4. Dense market area with mixed traffic
+	The scene contains pedestrians, pushcarts, parked vehicles, shop-front activity, two-wheelers, and frequent lateral movement.
+
+5. Sudden cattle-crossing event
+	An animal enters the vehicle path with little warning, requiring rapid detection, risk assessment, replanning, and controlled braking or avoidance.
+
+At least two detailed RoadRunner scenes should be created, including a village road and an urban intersection. All five scenarios should be connected to the same perception, prediction, planning, decision, and control pipeline.
+
+8. Planning and Safety Requirements
+
+The planner should:
+- Maintain a safe distance from detected and predicted obstacles.
+- Treat road boundaries and uncertain free space conservatively.
+- Estimate collision risk using predicted trajectories and uncertainty.
+- Replan when an obstacle appears, changes direction, or blocks the current path.
+- Prefer smooth steering and acceleration over unnecessary sharp maneuvers.
+- Support emergency braking when no safe avoidance path is available.
+- Respect vehicle acceleration, steering, curvature, and braking constraints.
+- Continue operating when lane markings or a high-definition map are unavailable.
+
+9. Performance Metrics
+
+The final evaluation should report results for every scenario using measurable metrics:
+
+- Scenario completion rate
+- Collision count and near-collision count
+- Minimum obstacle clearance
+- Replanning latency in milliseconds
+- Number of replanning events
+- Path smoothness, using curvature, jerk, or steering-rate variation
+- Average and maximum lateral error
+- Emergency braking frequency
+- Travel time and average speed
+- Comfort measures such as longitudinal and lateral acceleration
+- Detection, tracking, and prediction accuracy where ground truth is available
+
+Results should be compared across normal traffic, increased traffic density, sensor noise, delayed detections, and unexpected obstacle events.
+
+10. Expected Deliverables
+
+- Working MATLAB and Simulink simulation pipeline
+- At least two detailed RoadRunner scenes
+- Five validated Indian road scenarios
+- Perception, sensor-fusion, tracking, prediction, planning, decision, and control models
+- Performance results and plots for all required scenarios
+- Technical report explaining the architecture, algorithms, assumptions, and design choices
+- Demonstration video showing closed-loop navigation and real-time replanning
+- Source code, configuration files, scenario files, and instructions to reproduce the experiments
+
+11. Expected Outcome
+
+The completed system should demonstrate safe, smooth, and reliable autonomous navigation in mixed-traffic Indian road conditions. It should show that an autonomous vehicle can adapt to incomplete road structure, irregular road-user behavior, uncertain boundaries, and sudden obstacles while maintaining closed-loop control and timely collision avoidance.
+
+Organization: MathWorks
+Department: MathWorks
+Category: Software
+Theme: Robotics and Drones

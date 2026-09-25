@@ -1,0 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Large datasets and media exceeding GitHub's 100MB limit
+lastsene.webm
+dataset mini/
+Model1/dataset/
+*.tgz
+*.tar.gz
+*.zip
+
+# Scratch test files & root duplicates
+ch3.py
+checck.py
+check1.py
+yoolo.onnx
+lidar.onnx
+
+# Duplicate evaluation test folder
+Evaluation/lasttest/
