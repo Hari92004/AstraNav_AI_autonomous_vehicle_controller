@@ -15,37 +15,10 @@ This repository provides an end-to-end, production-grade **3-Model Perception & 
 
 ---
 
-## 💻 Dual-Laptop Distributed Architecture
-
 To simulate industrial automotive hardware-in-the-loop (HIL) testing, the system is strictly split between two dedicated laptops:
 
 ```
-+----------------------------------------------------------------------------------------------------+
-|                                    LAPTOP 1: TRAINING MACHINE                                      |
-|  Hardware: Intel Core i7-14700HX (20 Cores / 28 Threads) + NVIDIA RTX 4050 GPU (6 GB VRAM)         |
-|  OS: Windows 11 | Environment: PyTorch 2.8, CUDA, ONNX, NumPy, PIL                                 |
-|  Responsibilities:                                                                                 |
-|    - Model 1: 2D Camera Vision YOLO Training & Optimization (D:\SIH26\Model1)                      |
-|    - Model 2: 3D LiDAR PointPillars Detector on nuScenes Keyframes (D:\SIH26\model2)               |
-|    - Model 3: Indian Traffic Trajectory Predictor Neural Net (D:\SIH26\model3)                     |
-|    - Evaluation: Master Automated Benchmarking Suite (D:\SIH26\Evaluation)                         |
-|    - Export: Standalone Production ONNX Graph Generation (.onnx)                                   |
-+-------------------------------------------------+--------------------------------------------------+
-                                                  |
-                         Copy 3 Production ONNX Models via USB / Network
-                                                  |
-                                                  v
-+-------------------------------------------------+--------------------------------------------------+
-|                                    LAPTOP 2: SIMULATION MACHINE                                    |
-|  Software: MATLAB R2023b/R2024a, Simulink, Automated Driving Toolbox, Deep Learning Toolbox       |
-|  Responsibilities:                                                                                 |
-|    - importONNXNetwork() for Model 1, Model 2, and Model 3                                         |
-|    - 3D Virtual Indian Road Scenarios (RoadRunner / Unreal Engine Co-Simulation)                   |
-|    - 50 Hz Vehicle Dynamics Controller (Stanley Steering + PID Throttle/Braking)                  |
-|    - Closed-Loop Multi-Sensor Fusion & Frenet Local Trajectory Replanning                          |
-+----------------------------------------------------------------------------------------------------+
 ```
-
 ---
 
 ## 🏆 Master Evaluation & Accuracy Dashboard
